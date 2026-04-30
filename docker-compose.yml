@@ -4,8 +4,7 @@
 # Database:  AWS RDS MySQL (external — not containerised)
 # ═══════════════════════════════════════════════════════════════
 services:
-  
-  # ── Node.js Express API + Frontend ───────────────────────────
+
   app:
     build:
       context: .
@@ -14,12 +13,12 @@ services:
     image: shopflow:latest
     container_name: shopflow_app
     restart: unless-stopped
-    env_file: .env    # loads all DB_* JWT_* vars
+    env_file: .env
     environment:
       NODE_ENV: production
       PORT: 5000
     expose:
-      - "5000"          # only nginx talks to the app
+      - "5000"
     volumes:
       - app_logs:/app/backend/logs
     healthcheck:
@@ -35,30 +34,21 @@ services:
       options:
         max-size: "10m"
         max-file: "5"
-  
-  # ── Nginx reverse proxy ───────────────────────────────────────
+
   nginx:
     image: nginx:1.25-alpine
     container_name: shopflow_nginx
     restart: unless-stopped
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - nginx_logs:/var/log/nginx
-      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - app
     networks:
       - shopflow_net
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "5"
-  
-  # ── Dozzle — log viewer UI ────────────────────────────────────
+
   logs:
     image: amir20/dozzle:latest
     container_name: shopflow_logs
