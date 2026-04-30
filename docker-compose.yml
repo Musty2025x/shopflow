@@ -3,11 +3,8 @@
 # Services:  app (Node.js) · nginx (reverse proxy)
 # Database:  AWS RDS MySQL (external — not containerised)
 # ═══════════════════════════════════════════════════════════════
-
-version: "3.9"
-
 services:
-
+  
   # ── Node.js Express API + Frontend ───────────────────────────
   app:
     build:
@@ -17,20 +14,20 @@ services:
     image: shopflow:latest
     container_name: shopflow_app
     restart: unless-stopped
-    env_file: .env                      # loads all DB_* JWT_* vars
+    env_file: .env    # loads all DB_* JWT_* vars
     environment:
       NODE_ENV: production
       PORT: 5000
     expose:
-      - "5000"                          # only nginx talks to the app
+      - "5000"          # only nginx talks to the app
     volumes:
       - app_logs:/app/backend/logs
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:5000/health"]
       interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
     networks:
       - shopflow_net
     logging:
@@ -38,12 +35,7 @@ services:
       options:
         max-size: "10m"
         max-file: "5"
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: 512M
-
+  
   # ── Nginx reverse proxy ───────────────────────────────────────
   nginx:
     image: nginx:1.25-alpine
@@ -55,21 +47,15 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - nginx_logs:/var/log/nginx
     depends_on:
-      app:
-        condition: service_healthy
+      - app
     networks:
       - shopflow_net
-    healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "5"
-
+  
   # ── Dozzle — log viewer UI ────────────────────────────────────
   logs:
     image: amir20/dozzle:latest
