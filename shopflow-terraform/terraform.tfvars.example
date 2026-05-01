@@ -1,0 +1,30 @@
+# ═══════════════════════════════════════════════════════════════
+# ShopFlow — terraform.tfvars
+# cp terraform.tfvars.example terraform.tfvars
+# Fill in your values — NEVER commit terraform.tfvars to Git
+# ═══════════════════════════════════════════════════════════════
+
+aws_region   = "us-east-1"
+environment  = "dev"
+project_name = "shopflow"
+
+# ── Networking ────────────────────────────────────────────────
+vpc_cidr              = "10.0.0.0/16"
+public_subnet_cidr    = "10.0.1.0/24"
+private_subnet_cidr_a = "10.0.2.0/24"
+private_subnet_cidr_b = "10.0.3.0/24"
+allowed_ssh_cidr      = "0.0.0.0/0"   # replace with YOUR_IP/32
+
+# ── EC2 ──────────────────────────────────────────────────────
+instance_type = "t3.small"
+key_name      = "shopflow-key"         # must exist in AWS → EC2 → Key Pairs
+
+# ── RDS ──────────────────────────────────────────────────────
+db_instance_class = "db.t3.micro"
+db_name           = "shopflow"
+db_username       = "shopflow_user"
+db_password       = "YourStrongPassword123!"
+
+# ── App ──────────────────────────────────────────────────────
+jwt_secret = "shopflow-super-secret-jwt-key-min-32-chars"
+repo_url   = "https://github.com/Musty2025x/shopflow.git"
