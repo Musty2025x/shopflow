@@ -66,7 +66,7 @@ dig shopflow-instance-1.ccpim4w6wbf2.us-east-1.rds.amazonaws.com +short
 
 ### Screenshot of RDS config:
 
-> ![alt text](database-created-in-aws.png)
+> ![alt text](asset/database-created-in-aws.png)
 
 ### Step 2 — Launch EC2
 
@@ -107,10 +107,10 @@ apt-get install -y certbot
 0.0.0/0 for testing, but not recommended for production)
 
 ### screenshot of EC2 config:
-> ![alt text](ec2-instance.png)
+> ![alt text](asset/ec2-instance.png)
 
 ### screenshot of EC2 security group:
-> ![alt text](security-group.png)
+> ![alt text](asset/security-group.png)
 
 ---
 
@@ -189,7 +189,7 @@ EXIT;
 ### Step 4 — Update DNS records (optional)
 If you have a domain name, point it to your EC2 instance's public IP using an A record. This allows you to access the app via `http://yourdomain.com` instead of the IP address.
 
-> ![alt text](DNS-record.png)
+> ![alt text](asset/DNS-record.png)
 
 ### Step 5 — Build and start
 
@@ -283,7 +283,7 @@ curl http://localhost/api/products
 **Default admin login:** `admin@shopflow.com` / `admin123`
 
 ### screenshot of app homepage:
-> ![alt text](shopflow-frontshop.png)
+> ![alt text](asset/asset/shopflow-frontshop.png)
 
 ---
 
@@ -313,7 +313,7 @@ $ ssh -i ~/.ssh/shopflow-key.pem -L 3307:shopflow-db-instance-1.ccpim4w6wbf2.us-
 | Password | your RDS password |
 
 ### screenshot of MySQL Workbench connection:
-> ![alt text](mysql-workbench.png)
+> ![alt text](asset/asset/mysql-workbench.png)
 
 
 USE shopflow;
@@ -327,7 +327,7 @@ FROM orders o JOIN users u ON o.user_id = u.id
 ORDER BY o.created_at DESC;
 
 ### Dashboard screenshot:
-> ![alt text](dashboard.png)
+> ![alt text](asset/asset/dashboard.png)
 
 ---
 
